@@ -1,0 +1,32 @@
+name: Rust
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       include:
+         - backtrace: "1"
+    steps:
+        - uses: jetli/wasm-pack-action@v0.3.0
+        - env: 
+           RUST_BACKTRACE: 1
+        - run: | 
+            cargo generate --git . --name testing
+            mv Cargo.toml Cargo.toml.tmpl
+            cd testing
+            wasm-pack build
+            wasm-pack test --chrome --firefox --headless
+        
