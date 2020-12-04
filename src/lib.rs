@@ -1,5 +1,6 @@
 mod utils;
 
+use utils::set_panic_hook;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -15,5 +16,6 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet() {
+    set_panic_hook();
     alert("Hello, wasm-game-of-life!");
 }
