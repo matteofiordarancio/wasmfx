@@ -1,0 +1,17 @@
+name: Rust
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jetli/wasm-pack-action@v0.3.0
+      - uses: actions/checkout@v2
+      - run: cargo test
+      - run: |
+          cargo generate --git . --name testing
+          mv Cargo.toml Cargo.toml.tmpl
+          cd testing
+          wasm-pack build
+          wasm-pack test --chrome --firefox --headless
