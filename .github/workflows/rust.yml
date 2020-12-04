@@ -8,8 +8,10 @@ jobs:
     steps:
       - uses: jetli/wasm-pack-action@v0.3.0
       - uses: actions/checkout@v2
-      - run: cargo test
       - run: |
+          (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+          (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+          cargo install-update -a
           cargo generate --git . --name testing
           mv Cargo.toml Cargo.toml.tmpl
           cd testing
